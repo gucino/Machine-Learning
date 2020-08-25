@@ -76,9 +76,6 @@ plt.show()
 best_weight=sess.run(weight)
 best_bias=sess.run(bias)
 
-########################################################
-########################################################
-########################################################
 #training set prediction
 pred_y_train=np.squeeze(np.matmul(training_data,best_weight)+best_bias)
 mse_train=np.mean((pred_y_train-y_train)**2)
@@ -93,5 +90,63 @@ print("MSE test : ",mse_test)
 ########################################################
 ########################################################
 ########################################################
+#multi layer perceptron
 
 
+#structure
+input_layer=tf.placeholder(dtype=tf.float64,shape=(None,3))
+w1=tf.Variable(np.array([[1,1,1],[1,1,1],[1,1,1]]),dtype=tf.float64)
+w2=tf.Variable(np.array([1,1,1]),dtype=tf.float64)[:,tf.newaxis]
+b1=tf.Variable([1,1,1],dtype=tf.float64)
+b2=tf.Variable(1,dtype=tf.float64)
+hidden_layer=(tf.matmul(input_layer,w1)+b1)
+output_layer=tf.squeeze(tf.matmul(hidden_layer,w2)+b2)
+
+
+
+#train
+training_data=np.einsum("ij->ji",np.array([x1_train,x2_train,x3_train]))
+learning_rate=0.0000001
+loss=tf.reduce_mean((output_layer-y_train)**2)
+train=tf.train.GradientDescentOptimizer(learning_rate).minimize(loss)
+
+init=tf.initialize_all_variables()
+sess=tf.Session()
+sess.run(init)
+mse_list=[]
+print("before : ",sess.run(loss,feed_dict={input_layer:training_data}))
+for i in range(0,1000):
+    l=sess.run(loss,feed_dict={input_layer:training_data})
+    #print(l)
+    mse_list.append(l)
+    sess.run(train,feed_dict={input_layer:training_data})
+    
+
+print("after : ",sess.run(loss,feed_dict={input_layer:training_data}))
+plt.figure()
+plt.title("error per iteration")
+plt.plot(np.arange(0,len(mse_list)),mse_list)
+plt.show()
+
+best_w1=sess.run(w1)
+best_w2=sess.run(w2)
+best_b1=sess.run(b1)
+best_b2=sess.run(b2)
+
+
+#training set prediction
+hidden_layer=(np.matmul(training_data,best_w1)+best_b1)
+pred_y_train=np.squeeze(np.matmul(hidden_layer,best_w2)+best_b2)
+mse_train=np.mean((pred_y_train-y_train)**2)
+print("MSE train : ",mse_train)
+
+#test set prediction
+test_data=np.einsum("ij->ji",np.array([x1_test,x2_test,x3_test]))
+hidden_layer=(np.matmul(test_data,best_w1)+best_b1)
+pred_y_test=np.squeeze(np.matmul(hidden_layer,best_w2)+best_b2)
+mse_test=np.mean((pred_y_test-y_test)**2)
+print("MSE test : ",mse_test)
+
+########################################################
+########################################################
+########################################################
