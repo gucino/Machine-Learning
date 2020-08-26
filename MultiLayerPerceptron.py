@@ -92,6 +92,7 @@ print("MSE test : ",mse_test)
 ########################################################
 #multi layer perceptron
 
+num_feature=3
 
 #structure
 input_layer=tf.placeholder(dtype=tf.float64,shape=(None,3))
