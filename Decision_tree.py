@@ -15,6 +15,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 
 #generate data
+category=2
 num_observation=500
 x=np.linspace(1,100,num_observation)
 y=np.zeros((num_observation))
@@ -36,9 +37,6 @@ y_test=y[index_list][num_train:]
 ########################################################
 ########################################################
 ########################################################
-#decision tree
-category=2
-
 #entropy calculation
 def entropy_calculator(any_list):
 
@@ -57,7 +55,7 @@ def entropy_calculator(any_list):
 ########################################################
 #consider good split | got pure one and zero after split
 #before split
-b=y
+b=np.copy(y)
 num_b=num_observation
 
 #after split
@@ -79,7 +77,7 @@ print("good split information gain: ",information_gain)
 ########################################################
 #consider bad split | still got one and zero in the same set
 #before split
-b=y
+b=np.copy(y)
 num_b=num_observation
 
 #after split
@@ -100,6 +98,6 @@ print("bad split information gain: ",information_gain)
 ########################################################
 ########################################################
 ########################################################
-
 #real data set
+
 
