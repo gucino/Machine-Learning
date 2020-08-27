@@ -17,9 +17,9 @@ import matplotlib.pyplot as plt
 #generate data
 category=2
 num_observation=500
-x=np.linspace(1,100,num_observation)
+x=np.linspace(0,100,num_observation)
 y=np.zeros((num_observation))
-y[x>80]=1
+y[x>50]=1
 
 #split train and test
 percent_train=0.8
@@ -34,6 +34,7 @@ x_test=x[index_list][num_train:]
 
 y_train=y[index_list][:num_train]
 y_test=y[index_list][num_train:]
+
 ########################################################
 ########################################################
 ########################################################
