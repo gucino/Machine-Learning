@@ -84,8 +84,14 @@ num_b=num_observation
 #after split
 index_list=np.arange(0,num_b)
 np.random.shuffle(index_list)
+'''
 a1=b[index_list[:int(num_b/2)]]
-a1=b[index_list[int(num_b/2):]]
+a2=b[index_list[int(num_b/2):]]
+'''
+a1=np.array(list(np.zeros((125)))+list(np.ones((125))))
+a2=np.array(list(np.zeros((125)))+list(np.ones((125))))
+np.random.shuffle(a1)
+np.random.shuffle(a2)
 
 
 #calculate entropy
