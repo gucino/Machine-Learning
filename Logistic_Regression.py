@@ -53,10 +53,17 @@ pred_intercept=tf.Variable(0,dtype=tf.float64)
 linear_y=(pred_coeff*x_train)+pred_intercept
 logistic_line=1/(1+tf.exp(-linear_y))
 pred_y_train=tf.math.round(logistic_line)
-accuracy=tf.constant(y_train)==pred_y_train
+
 
 #gradient descent
 init=tf.initialize_all_variables()
-sess.run(init)
-pred_y_train=sess.run(pred_y_train)
 
+
+logits = tf.placeholder(tf.int64, [2,3])
+labels = tf.Variable([[0, 1, 0], [1, 0, 1]])
+
+acc, acc_op = tf.metrics.accuracy(labels=tf.argmax(labels, 1),   
+                                  predictions=tf.argmax(logits,1))
+
+sess.run(init)
+sess.run(acc)
